@@ -15,4 +15,8 @@ def test_puzzle():
 
     puzzle = Puzzle()
     puzzle.resolve_with_breadth_first_search(initial_state, goal_state)
+    print(puzzle.state_count)
     assert puzzle.state_count == 2
+
+if __name__ == "__main__":
+    test_puzzle()

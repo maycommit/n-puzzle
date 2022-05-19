@@ -11,7 +11,7 @@ class Node:
         id = ""
         for i in range(settings.N):
             for j in range (settings.N):
-                id += state[i][j]
+                id += str(state[i][j])
 
         return id
 

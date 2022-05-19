@@ -20,7 +20,7 @@ class Puzzle:
 
     def expand_edge(self, edge):
         parents = []
-        empty_tile_position = edge.get_empty_tile_position(settings.N)
+        empty_tile_position = edge.get_empty_tile_position()
         possible_movements = self.get_all_possible_movements(empty_tile_position)
 
         for possible_movement in possible_movements:
