@@ -2,7 +2,7 @@ import copy
 import settings
 from collections import deque
 from node import Node
-from priority_queue import PriorityQueue
+from queue import PriorityQueue
 from position import Position
 
 class Puzzle:
@@ -73,10 +73,10 @@ class Puzzle:
         count_states = 0
         visited_edges = {}
         queue = PriorityQueue()
-        queue.insert(0, Node(initial_state, 0))
+        queue.put((0, Node(initial_state, 0)))
 
         while not queue.empty():
-            queue_cost, node = queue.delete()
+            queue_cost, node = queue.get()
             visited_edges[node.id] = queue_cost
 
             if node.compare_states(goal_state):
@@ -89,7 +89,7 @@ class Puzzle:
                 visited_edge = visited_edges.get(expanded_edge.id)
 
                 if visited_edge is None or visited_edge > expanded_edge.cost:
-                    queue.insert(expanded_edge.cost, expanded_edge)
+                    queue.put((expanded_edge.cost, expanded_edge))
                     visited_edges[expanded_edge.id] = expanded_edge.cost
 
         return {"states": count_states, "result": result}

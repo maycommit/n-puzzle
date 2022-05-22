@@ -2,6 +2,12 @@ import settings
 from position import Position
 
 class Node:
+    def __gt__(self, other):
+        return self.cost > other.cost
+
+    def __lt__(self, other):
+        return self.cost < other.cost
+
     def __init__(self, state, depth):
         self.id = self.generate_id(state)
         self.cost = 0
