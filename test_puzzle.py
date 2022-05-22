@@ -1,40 +1,33 @@
 from puzzle import Puzzle
 
-def test_puzzle_1():
-    initial_state = [
-        [4, 5, 1],
-        [2, 3, 6],
-        [0, 8, 7],
-    ]
-
-    goal_state = [
-        [4, 5, 1],
-        [0, 3, 6],
-        [2, 8, 7],
-    ]
-
+def output(initial_state, goal_state):
     puzzle = Puzzle()
-    puzzle.resolve_with_breadth_first_search(initial_state, goal_state)
-    assert puzzle.state_count == 2
+    alg1 = puzzle.resolve_with_breadth_first_search(initial_state, goal_state)
+    alg2 = puzzle.resolve_with_a_star(initial_state, goal_state)
+    d = {
+        "BFS": [alg1.get("states"), alg1.get("result")],
+        "A*": [alg2.get("states"), alg2.get("result")]
+    }
+    print ("{:<15} {:<10} {:<10}".format('Algorithm','States','Result'))
+    for k, v in d.items():
+        states, result = v
+        result = "FOUND" if result else "NOT FOUND"
 
-def test_puzzle_2():
-    initial_state = [
-        [4, 5, 1],
-        [2, 3, 6],
-        [0, 8, 7],
-    ]
+        print("{:<15} {:<10} {:<10}".format(k, states, result))
 
-    goal_state = [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 0],
-    ]
 
-    puzzle = Puzzle()
-    puzzle.resolve_with_breadth_first_search(initial_state, goal_state)
-    assert puzzle.state_count == 181440
+def test_puzzle():
+    case1 = [[[4, 5, 1],[2, 3, 6],[0, 8, 7]], [[7, 5, 1],[2, 8, 6],[3, 4, 0]]]
+    case2 = [[[4, 5, 1],[2, 3, 6],[0, 8, 7]], [[1, 2, 3],[4, 5, 6],[7, 8, 0]]]
+    cases = [case1, case2]
+
+    for ncase in cases:
+        print("=========================================")
+        initial_state, goal_state = ncase
+        output(initial_state, goal_state)
+        print("=========================================")
+
+
 
 if __name__ == "__main__":
-    test_puzzle_1()
-    test_puzzle_2()
-    print("Everything passed")
+    test_puzzle()

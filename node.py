@@ -4,6 +4,9 @@ from position import Position
 class Node:
     def __init__(self, state, depth):
         self.id = self.generate_id(state)
+        self.cost = 0
+        self.action = ""
+        self.parent = ""
         self.state = state
         self.depth = depth
 
@@ -20,9 +23,9 @@ class Node:
         for i in range(settings.N):
             for j in range (settings.N):
                 if self.state[i][j] == 0:
-                    return Position(i, j)
+                    return Position("", i, j)
 
-        return Position(0, 0)
+        return Position("", 0, 0)
 
     def copy_state(self, puzzle_size):
         copy = []
