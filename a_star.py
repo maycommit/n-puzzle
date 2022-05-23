@@ -3,7 +3,7 @@ from node import Node
 
 class AStar:
     def __init__(self):
-        self.name = "BFS"
+        self.name = "A* (Man)"
         self.visited = {}
 
     def h(self, x, goal_state):

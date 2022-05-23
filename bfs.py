@@ -3,7 +3,7 @@ from node import Node
 
 class BFS:
     def __init__(self):
-        self.name = "A*"
+        self.name = "BFS"
         self.visited = {}
 
     def solve(self, initial_state, goal_state):
