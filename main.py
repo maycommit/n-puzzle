@@ -1,20 +1,24 @@
 from puzzle import Puzzle
-import settings
+from bfs import BFS
+from a_star import AStar
 
 def output(initial_state, goal_state):
-    puzzle = Puzzle()
-    alg1 = puzzle.resolve_with_breadth_first_search(initial_state, goal_state)
-    alg2 = puzzle.resolve_with_a_star(initial_state, goal_state)
-    d = {
-        "BFS": [alg1.get("states"), alg1.get("result")],
-        "A*": [alg2.get("states"), alg2.get("result")]
-    }
-    print ("{:<15} {:<10} {:<10}".format('Algorithm','States','Result'))
+    algs = [
+        Puzzle(BFS()),
+        Puzzle(AStar())
+    ]
+
+    d = {}
+    for alg in algs:
+        res = alg.solve(initial_state, goal_state)
+        d[res.get("name")] = [res.get("states"), res.get("result"), res.get("execution_time")]
+
+    print ("{:<15} {:<10} {:<15} {:<10}".format('Algorithm','States','Execution Time', 'Result'))
     for k, v in d.items():
-        states, result = v
+        states, result, execution_time = v
         result = "FOUND" if result else "NOT FOUND"
 
-        print("{:<15} {:<10} {:<10}".format(k, states, result))
+        print("{:<15} {:<10} {:<15} {:<10}".format(k, states, str(execution_time)[:8], result))
 
 def make_2d_array(inp):
     res = []
