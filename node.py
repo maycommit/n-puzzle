@@ -25,13 +25,26 @@ class Node:
         return id
 
 
-    def get_empty_tile_position(self):
-        for i in range(settings.N):
-            for j in range (settings.N):
-                if self.state[i][j] == 0:
+    def get_tile_position(self, state, value):
+        for i in range(len(state)):
+            for j in range(len(state[i])):
+                if state[i][j] == value:
                     return Position("", i, j)
 
-        return Position("", 0, 0)
+        return Position("", -1, -1)
+
+
+    def get_manhattan_distance_sum(self, goal_state):
+        s = 0
+        for i in range(len(self.state)):
+            for j in range(len(self.state[i])):
+                current_tile = self.state[i][j]
+                pos = self.get_tile_position(goal_state, current_tile)
+                s += (abs(i - pos.x) + abs(j - pos.y))
+        return s
+
+    def get_empty_tile_position(self):
+        return self.get_tile_position(self.state, 0)
 
     def copy_state(self, puzzle_size):
         copy = []

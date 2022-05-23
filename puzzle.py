@@ -18,12 +18,10 @@ class Puzzle:
         return [down, up, left, right]
 
     def h(self, x, goal_state):
-        flat_curr_state = [item for sublist in x.state for item in sublist]
-        flat_goal_state = [item for sublist in goal_state for item in sublist]
-        return sum(abs(v1 - v2) for v1, v2 in zip(flat_curr_state, flat_goal_state))
+        return x.get_manhattan_distance_sum(goal_state)
 
     def g(self, x):
-        return x.depth + 1
+        return 1
 
     def expand_edge(self, edge):
         parents = []
