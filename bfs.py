@@ -6,18 +6,18 @@ class BFS:
         self.name = "BFS"
         self.visited = {}
 
-    def solve(self, initial_state, goal_state):
+    def solve(self, initial_state_map, goal_state_map):
         result = None
         count_states = 0
         visitedEdges = set()
-        queue = deque([Node(initial_state, 0)])
+        queue = deque([Node(initial_state_map, 0)])
 
         while queue:
             node = queue.popleft()
             visitedEdges.add(node.id)
 
-            if node.compare_states(goal_state):
-                result = node.state
+            if node.compare_states(goal_state_map):
+                result = node.state_map
                 break
 
             count_states += 1

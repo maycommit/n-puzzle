@@ -1,4 +1,6 @@
 import settings
+import copy
+from movement import Movement
 from position import Position
 
 class Node:
@@ -8,89 +10,71 @@ class Node:
     def __lt__(self, other):
         return self.cost < other.cost
 
-    def __init__(self, state, depth):
-        self.id = self.generate_id(state)
+    def __init__(self, state_map, depth):
+        self.movement = Movement()
+        self.id = self.generate_id(state_map)
         self.cost = 0
         self.action = ""
         self.parent = ""
-        self.state = state
+        self.state_map = state_map
         self.depth = depth
 
-    def generate_id(self, state):
+    def generate_id(self, state_map):
         id = ""
-        for i in range(len(state)):
-            for j in range(len(state[i])):
-                id += str(state[i][j])
+        for key in state_map.items():
+            id += str(key[0]) + str(key[1].x) + str(key[1].y)
 
         return id
 
 
-    def get_tile_position(self, state, value):
-        for i in range(len(state)):
-            for j in range(len(state[i])):
-                if state[i][j] == value:
-                    return Position("", i, j)
+    def get_tile_position_by_value(self, value):
+        if value in self.state_map:
+            return self.state_map[value]
 
-        return Position("", -1, -1)
+        return Position(-1, -1)
 
-    def get_manhattan_distance_sum(self, goal_state):
+    def get_tile_value_by_pos(self, pos):
+        for value in self.state_map.items():
+            value_pos = value[1]
+            if value_pos.x == pos.x and value_pos.y == pos.y:
+                return value[0]
+
+        return -1
+
+    def get_manhattan_distance_sum(self, goal_state_map):
         s = 0
-        for i in range(len(self.state)):
-            for j in range(len(self.state[i])):
-                current_tile = self.state[i][j]
-                pos = self.get_tile_position(goal_state, current_tile)
-                s += (abs(i - pos.x) + abs(j - pos.y))
+
+        for key in self.state_map.keys():
+            current_pos = self.state_map[key]
+            goal_pos = goal_state_map[key]
+            s += (abs(current_pos.x -goal_pos.x) + abs(current_pos.y - goal_pos.y))
 
         return s
 
     def get_empty_tile_position(self):
-        return self.get_tile_position(self.state, 0)
-
-    def copy_state(self):
-        copy = []
-        for i in range(len(self.state)):
-            row = []
-            for j in range(len(self.state[i])):
-                row.append(self.state[i][j])
-
-            copy.append(row)
-
-        return copy
-
-    def get_all_possible_movements(self, empty_tile_position):
-        down = Position("DOWN", empty_tile_position.x, empty_tile_position.y - 1)
-        up = Position("UP", empty_tile_position.x, empty_tile_position.y + 1)
-        left = Position("LEFT", empty_tile_position.x + 1, empty_tile_position.y)
-        right = Position("RIGHT", empty_tile_position.x - 1, empty_tile_position.y)
-
-        return [down, up, left, right]
+        return self.get_tile_position_by_value(0)
 
     def expand_edge(self):
         parents = []
         empty_tile_position = self.get_empty_tile_position()
-        possible_movements = self.get_all_possible_movements(empty_tile_position)
+        possible_movements = self.movement.get_all_possible_movements(empty_tile_position)
 
         for possible_movement in possible_movements:
-            is_valid_row_movement = possible_movement.x >= 0 and possible_movement.x < settings.N
-            is_valid_column_movement = possible_movement.y >= 0 and possible_movement.y < settings.N
-
-            if is_valid_row_movement and is_valid_column_movement:
-                state_copy = self.copy_state()
-                aux = state_copy[possible_movement.x][possible_movement.y]
-                state_copy[possible_movement.x][possible_movement.y] = state_copy[empty_tile_position.x][empty_tile_position.y]
-                state_copy[empty_tile_position.x][empty_tile_position.y] = aux
-                new_node = Node(state_copy, self.depth + 1)
-                new_node.action = possible_movement.name
-                new_node.parent = self.id
-                parents.append(new_node)
+            state_copy = copy.deepcopy(self.state_map)
+            tile_value_to_move = self.get_tile_value_by_pos(possible_movement)
+            state_copy[0] = possible_movement
+            state_copy[tile_value_to_move] = empty_tile_position
+            new_node = Node(state_copy, self.depth + 1)
+            new_node.parent = self.id
+            parents.append(new_node)
 
         return parents
 
 
-    def compare_states(self, goal_state):
-        for i in range(settings.N):
-            for j in range (settings.N):
-                if self.state[i][j] != goal_state[i][j]:
-                    return 0
+    def compare_states(self, goal_state_map):
+        for key in self.state_map.keys():
+            if self.state_map[key].x != goal_state_map[key].x and self.state_map[key].y != goal_state_map[key].y:
+                return 0
 
         return 1
+
