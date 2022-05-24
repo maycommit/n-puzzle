@@ -1,4 +1,5 @@
 import settings
+import movement
 from position import Position
 
 class Node:
@@ -29,19 +30,9 @@ class Node:
         for i in range(len(state)):
             for j in range(len(state[i])):
                 if state[i][j] == value:
-                    return Position("", i, j)
+                    return Position(i, j)
 
-        return Position("", -1, -1)
-
-    def get_manhattan_distance_sum(self, goal_state):
-        s = 0
-        for i in range(len(self.state)):
-            for j in range(len(self.state[i])):
-                current_tile = self.state[i][j]
-                pos = self.get_tile_position(goal_state, current_tile)
-                s += (abs(i - pos.x) + abs(j - pos.y))
-
-        return s
+        return Position(-1, -1)
 
     def get_empty_tile_position(self):
         return self.get_tile_position(self.state, 0)
@@ -57,32 +48,20 @@ class Node:
 
         return copy
 
-    def get_all_possible_movements(self, empty_tile_position):
-        down = Position("DOWN", empty_tile_position.x, empty_tile_position.y - 1)
-        up = Position("UP", empty_tile_position.x, empty_tile_position.y + 1)
-        left = Position("LEFT", empty_tile_position.x + 1, empty_tile_position.y)
-        right = Position("RIGHT", empty_tile_position.x - 1, empty_tile_position.y)
-
-        return [down, up, left, right]
-
     def expand_edge(self):
         parents = []
-        empty_tile_position = self.get_empty_tile_position()
-        possible_movements = self.get_all_possible_movements(empty_tile_position)
+        empty_position = self.get_empty_tile_position()
+        movements = movement.get_all_possible_movements(empty_position)
 
-        for possible_movement in possible_movements:
-            is_valid_row_movement = possible_movement.x >= 0 and possible_movement.x < settings.N
-            is_valid_column_movement = possible_movement.y >= 0 and possible_movement.y < settings.N
-
-            if is_valid_row_movement and is_valid_column_movement:
-                state_copy = self.copy_state()
-                aux = state_copy[possible_movement.x][possible_movement.y]
-                state_copy[possible_movement.x][possible_movement.y] = state_copy[empty_tile_position.x][empty_tile_position.y]
-                state_copy[empty_tile_position.x][empty_tile_position.y] = aux
-                new_node = Node(state_copy, self.depth + 1)
-                new_node.action = possible_movement.name
-                new_node.parent = self.id
-                parents.append(new_node)
+        for m in movements:
+            state_copy = self.copy_state()
+            aux = state_copy[m.position.x][m.position.y]
+            state_copy[m.position.x][m.position.y] = state_copy[empty_position.x][empty_position.y]
+            state_copy[empty_position.x][empty_position.y] = aux
+            new_node = Node(state_copy, self.depth + 1)
+            new_node.action = m.name
+            new_node.parent = self.id
+            parents.append(new_node)
 
         return parents
 

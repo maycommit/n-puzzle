@@ -2,8 +2,8 @@ from collections import deque
 from node import Node
 
 class BFS:
-    def __init__(self):
-        self.name = "BFS"
+    def __init__(self, name):
+        self.name = name
         self.visited = {}
 
     def solve(self, initial_state, goal_state):
@@ -18,6 +18,7 @@ class BFS:
 
             if node.compare_states(goal_state):
                 result = node.state
+                print(node.action)
                 break
 
             count_states += 1

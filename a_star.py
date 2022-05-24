@@ -1,18 +1,22 @@
+import utils
 from queue import PriorityQueue
 from node import Node
 
 class AStar:
-    def __init__(self):
-        self.name = "A* (Man)"
+    def __init__(self, name, heuristic):
+        self.name = name
         self.visited = {}
+        self.heuristic = heuristic
 
-    def h(self, x, goal_state):
-        return x.get_manhattan_distance_sum(goal_state)
+    def h(self, x, goal_state_map):
+        return self.heuristic(x.state, goal_state_map)
 
     def g(self):
         return 1
 
     def solve(self, initial_state, goal_state):
+        goal_state_map = utils.get_map_by_state(goal_state)
+
         result = None
         count_states = 0
         visited_edges = {}
@@ -29,7 +33,7 @@ class AStar:
 
             count_states += 1
             for expanded_edge in node.expand_edge():
-                expanded_edge.cost = self.g() + self.h(expanded_edge, goal_state)
+                expanded_edge.cost = self.g() + self.h(expanded_edge, goal_state_map)
                 visited_edge = visited_edges.get(expanded_edge.id)
 
                 if visited_edge is None or visited_edge > expanded_edge.cost:
