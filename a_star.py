@@ -19,6 +19,7 @@ class AStar:
 
         result = None
         count_states = 0
+        states = []
         visited_edges = {}
         queue = PriorityQueue()
         queue.put((0, Node(initial_state, 0)))
@@ -32,6 +33,7 @@ class AStar:
                 break
 
             count_states += 1
+            states.append(node.state)
             for expanded_edge in node.expand_edge():
                 expanded_edge.cost = self.g() + self.h(expanded_edge, goal_state_map)
                 visited_edge = visited_edges.get(expanded_edge.id)
@@ -40,4 +42,4 @@ class AStar:
                     queue.put((expanded_edge.cost, expanded_edge))
                     visited_edges[expanded_edge.id] = expanded_edge.cost
 
-        return {"states": count_states, "result": result}
+        return {"states": states, "count_states": count_states, "result": result}

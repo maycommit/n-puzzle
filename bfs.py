@@ -9,6 +9,7 @@ class BFS:
     def solve(self, initial_state, goal_state):
         result = None
         count_states = 0
+        states = []
         visitedEdges = set()
         queue = deque([Node(initial_state, 0)])
 
@@ -18,14 +19,14 @@ class BFS:
 
             if node.compare_states(goal_state):
                 result = node.state
-                print(node.action)
                 break
 
             count_states += 1
+            states.append(node.state)
             for expanded_edge in node.expand_edge():
                 if expanded_edge.id not in visitedEdges:
                     queue.append(expanded_edge)
                     visitedEdges.add(expanded_edge.id)
 
-        return {"states": count_states, "result": result}
+        return {"states": states, "count_states": count_states, "result": result}
 

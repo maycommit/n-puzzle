@@ -13,14 +13,8 @@ algs = [
 while True:
     try:
         inputcase = input().split()
-
-        print("=========================================")
         initial_state, goal_state = inputcase
-        utils.output(
-            algs,
-            utils.make_2d_array(initial_state),
-            utils.make_2d_array(goal_state),
-        )
-        print("=========================================")
+        utils.output_result(algs, initial_state, goal_state)
+        print("Finish outputs for input: " + initial_state + " " + goal_state)
     except EOFError:
         break
