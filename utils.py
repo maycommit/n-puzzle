@@ -1,29 +1,33 @@
 import os
+import json
+import shutil
 from position import Position
 
-def open_statefile(initial_state, goal_state):
-    filename = './out/' + initial_state + goal_state + '/states'
+def open_nodefile(initial_state, goal_state):
+    filename = './out/' + initial_state + goal_state + '/nodes.json'
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     return open(filename, 'w')
 
 def open_resultfile(initial_state, goal_state):
-    filename = './out/' + initial_state + goal_state + '/results'
+    filename = './out/' + initial_state + goal_state + '/results.json'
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     return open(filename, 'w')
 
+def copy_viewer(initial_state, goal_state):
+    shutil.copy('viewer/index.html', "out/{0}{1}/index.html".format(initial_state, goal_state))
+
 def output_result(algorithms, initial_state, goal_state):
     result_file = open_resultfile(initial_state, goal_state)
-    state_file = open_statefile(initial_state, goal_state)
-    result_file.write("{:<15} {:<10} {:<15} {:<10}\n".format('Algorithm','States','Execution Time', 'Result'))
+    node_file = open_nodefile(initial_state, goal_state)
+    result_lines = []
 
     for alg in algorithms:
         res = alg.solve(make_2d_array(initial_state), make_2d_array(goal_state))
-        result_file.write("{:<15} {:<10} {:<15} {:<10}\n".format(res.get("name"), res.get("count_states"), str(res.get("execution_time"))[:8], str(res.get("result"))))
-        for state in res.get("states"):
-            state_file.write(str(state) + "\n")
+        result_lines.append({"name": res.get("name"), "count_states": res.get("count_states"), "execution_time": str(res.get("execution_time"))[:8], "result": str(res.get("result"))})
+        node_file.write(json.dumps(res.get("nodes")))
 
-def array2d_to_string(arr):
-    return ','.join(str(item) for innerlist in outerlist for item in arr)
+    result_file.write(json.dumps(result_lines))
+    copy_viewer(initial_state, goal_state)
 
 def get_map_by_state(state):
     m = {}

@@ -9,11 +9,14 @@ class Node:
     def __lt__(self, other):
         return self.cost < other.cost
 
-    def __init__(self, state, depth):
+    def __cmp__(self, other):
+        return cmp(self.cost, other.cost)
+
+    def __init__(self, state, depth, cost=0, action="", parent=""):
         self.id = self.generate_id(state)
-        self.cost = 0
-        self.action = ""
-        self.parent = ""
+        self.cost = cost
+        self.action = action
+        self.parent = parent
         self.state = state
         self.depth = depth
 
@@ -58,9 +61,7 @@ class Node:
             aux = state_copy[m.position.x][m.position.y]
             state_copy[m.position.x][m.position.y] = state_copy[empty_position.x][empty_position.y]
             state_copy[empty_position.x][empty_position.y] = aux
-            new_node = Node(state_copy, self.depth + 1)
-            new_node.action = m.name
-            new_node.parent = self.id
+            new_node = Node(state_copy, self.depth + 1, parent=self.id, action=m.name)
             parents.append(new_node)
 
         return parents

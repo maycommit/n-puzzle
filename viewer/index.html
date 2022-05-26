@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script>
+window.onload = function () {
+  $.getJSON( "results.json", function(results) {
+    console.log(results)
+    var options = {
+      title: {
+        text: "Execution times"
+      },
+      data: [
+      {
+        // Change type to "doughnut", "line", "splineArea", etc.
+        type: "column",
+        dataPoints: results.map(result => ({ label: result.name, y: Number(result.execution_time) }) )
+        }
+      ]
+    };
+
+    $("#chartContainer").CanvasJSChart(options);
+  });
+}
+  //Better to construct options first and then pass it as a parameter
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+</body>
+</html>
