@@ -17,12 +17,12 @@ class BFS:
             node = queue.popleft()
             visitedEdges.add(node.id)
 
+            nodes.append({ "id": node.id, "parent": node.parent, "action": node.action, "state": str(node.state)})
             if node.compare_states(goal_state):
                 result = node.state
                 break
 
             count_states += 1
-            nodes.append({ "parent": node.parent, "action": node.action, "state": node.state})
             for expanded_edge in node.expand_edge():
                 if expanded_edge.id not in visitedEdges:
                     queue.append(expanded_edge)

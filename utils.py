@@ -19,13 +19,15 @@ def copy_viewer(initial_state, goal_state):
 def output_result(algorithms, initial_state, goal_state):
     result_file = open_resultfile(initial_state, goal_state)
     node_file = open_nodefile(initial_state, goal_state)
+    node_lines = []
     result_lines = []
 
     for alg in algorithms:
         res = alg.solve(make_2d_array(initial_state), make_2d_array(goal_state))
         result_lines.append({"name": res.get("name"), "count_states": res.get("count_states"), "execution_time": str(res.get("execution_time"))[:8], "result": str(res.get("result"))})
-        node_file.write(json.dumps(res.get("nodes")))
+        node_lines.append({ "algorithm": res.get("name"), "nodes": res.get("nodes") })
 
+    node_file.write(json.dumps(node_lines))
     result_file.write(json.dumps(result_lines))
     copy_viewer(initial_state, goal_state)
 

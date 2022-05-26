@@ -28,12 +28,12 @@ class AStar:
             node = queue.get()
             visited_edges[node.id] = node.cost
 
+            nodes.append({ "id": node.id, "parent": node.parent, "action": node.action, "state": str(node.state)})
             if node.compare_states(goal_state):
                 result = node.state
                 break
 
             count_states += 1
-            nodes.append({ "parent": node.parent, "action": node.action, "state": node.state})
             for expanded_edge in node.expand_edge():
                 expanded_edge.cost = self.g() + self.h(expanded_edge, goal_state_map)
                 visited_edge = visited_edges.get(expanded_edge.id)
