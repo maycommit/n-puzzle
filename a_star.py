@@ -1,8 +1,5 @@
-from cmath import exp
-from os import PRIO_USER
 import utils
-from queue import PriorityQueue
-# from priority_queue import PriorityQueue
+from priority_queue import PriorityQueue
 from node import Node
 
 class AStar:
@@ -15,14 +12,8 @@ class AStar:
         return self.heuristic(x.state, goal_state_map)
 
     def g(self, x):
-        return 1
+        return x.depth
 
-    def replace_item(self, queue, node):
-        for i in range(len(queue)):
-            if queue[i].id == node.id:
-                queue[i].cost = node.cost
-                break
-    
     def solve(self, initial_state, goal_state):
         goal_state_map = utils.get_map_by_state(goal_state)
 
@@ -32,10 +23,11 @@ class AStar:
         visited_edges = {}
         queue = PriorityQueue()
         queue.put(Node(initial_state, 0))
-            
+
         while not queue.empty():
             node = queue.get()
-            visited_edges[node.id] = node.cost
+            if node.id in visited_edges and node.cost >= visited_edges.get(node.id):
+                continue
 
             nodes.append({ "id": node.id, "parent": node.parent, "action": node.action, "state": utils.get_output_state(node.state)})
             if node.compare_states(goal_state):
@@ -43,18 +35,15 @@ class AStar:
                 break
 
             count_states += 1
+            visited_edges[node.id] = node.cost
             for expanded_edge in node.expand_edge():
-                cost = expanded_edge.depth + self.h(expanded_edge, goal_state_map)
+                cost = self.g(expanded_edge) + self.h(expanded_edge, goal_state_map)
                 expanded_edge.cost = cost
 
-                if expanded_edge.id in visited_edges and cost < visited_edges.get(expanded_edge.id):
-                    visited_edges[expanded_edge.id] = expanded_edge.cost
-                    self.replace_item(queue.queue, expanded_edge)
-                    continue
-
                 if expanded_edge.id not in visited_edges:
-                    visited_edges[expanded_edge.id] = expanded_edge.cost
                     queue.put(expanded_edge)
-
+                elif expanded_edge.id in visited_edges and cost < visited_edges.get(expanded_edge.id):
+                    visited_edges[expanded_edge.id] = cost
+                    queue.replace(expanded_edge)
 
         return {"nodes": nodes, "count_states": count_states, "result": result}

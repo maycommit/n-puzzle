@@ -9,9 +9,6 @@ class Node:
     def __lt__(self, other):
         return self.cost < other.cost
 
-    def __cmp__(self, other):
-        return cmp(self.cost, other.cost)
-
     def __init__(self, state, depth, cost=0, action="", parent=""):
         self.id = self.generate_id(state)
         self.cost = cost
