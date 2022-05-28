@@ -1,3 +1,4 @@
+import utils
 from collections import deque
 from node import Node
 
@@ -17,7 +18,7 @@ class BFS:
             node = queue.popleft()
             visitedEdges.add(node.id)
 
-            nodes.append({ "id": node.id, "parent": node.parent, "action": node.action, "state": str(node.state)})
+            nodes.append({ "id": node.id, "parent": node.parent, "action": node.action, "state": utils.get_output_state(node.state)})
             if node.compare_states(goal_state):
                 result = node.state
                 break

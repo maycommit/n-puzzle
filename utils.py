@@ -31,6 +31,17 @@ def output_result(algorithms, initial_state, goal_state):
     result_file.write(json.dumps(result_lines))
     copy_viewer(initial_state, goal_state)
 
+
+def get_output_state(state):
+    res = ""
+    for i in range(len(state)):
+        res += ' {} | {} | {}'.format(*state[i])
+        if i < len(state) - 1:
+            res += '\n--+--+--\n'
+
+    return res
+        
+
 def get_map_by_state(state):
     m = {}
     for i in range(len(state)):

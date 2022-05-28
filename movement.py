@@ -9,10 +9,10 @@ class Movement:
 
 def get_all_possible_movements(empty_tile_position):
     possible_movements = []
-    down = Movement("DOWN", empty_tile_position.x, empty_tile_position.y - 1)
-    up = Movement("UP", empty_tile_position.x, empty_tile_position.y + 1)
-    left = Movement("LEFT", empty_tile_position.x + 1, empty_tile_position.y)
-    right = Movement("RIGHT", empty_tile_position.x - 1, empty_tile_position.y)
+    down = Movement("LEFT", empty_tile_position.x, empty_tile_position.y - 1)
+    up = Movement("RIGHT", empty_tile_position.x, empty_tile_position.y + 1)
+    left = Movement("UP", empty_tile_position.x + 1, empty_tile_position.y)
+    right = Movement("DOWN", empty_tile_position.x - 1, empty_tile_position.y)
 
     for movement in [down, up, left, right]:
         is_valid_row_movement = movement.position.x >= 0 and movement.position.x < settings.N

@@ -3,7 +3,13 @@
 <head>
 </head>
 <body>
-<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<div style="height: 300px; width: 100%; display: flex;">
+<div id="columnChartContainer" style="height: 300px; width: 50%;"></div>
+<div id="pieChartContainer" style="height: 300px; width: 50%;"></div>
+</div>
+<input id="nodeKey"><button id="zoomToNode">Zoom to node</button>
+<button id="zoomToFit">Zoom to Fit</button>
+<div id="control"></div>
 <div id="myDiagramDiv" style="background-color: white; border: solid 1px black; width: 100%; height: 550px"></div>
 <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
@@ -13,31 +19,60 @@ function init() {
   $.getJSON("nodes.json")
       .then((results) => {
         console.log(results)
-        const $ = go.GraphObject.make;  // for conciseness in defining templates
+        const goJS = go.GraphObject.make;  // for conciseness in defining templates
 
         myDiagram =
-          $(go.Diagram, "myDiagramDiv",  // must be the ID or reference to div
+          goJS(go.Diagram, "myDiagramDiv",  // must be the ID or reference to div
             {
               "toolManager.hoverDelay": 100,  // 100 milliseconds instead of the default 850
               allowCopy: false,
               layout:  // create a TreeLayout for the family tree
-                $(go.TreeLayout,
+                goJS(go.TreeLayout,
                   { angle: 90, nodeSpacing: 10, layerSpacing: 40, layerStyle: go.TreeLayout.LayerUniform })
             });
+ 
+        
+        myDiagram.nodeTemplate =
+          goJS(go.Node, "Auto",
+            goJS(go.Panel, "Vertical",
+              { margin: 0 },
+              goJS(go.TextBlock, new go.Binding("text", "name"),
+                { margin: 0 })
+              )
+          );
 
-        var nodeDataArray = results[0].nodes.map(result => ({
-            key: result.id,
-            parent: result.parent,
-            name: result.state,
-        }))
+        for(const alg of results) {
+          $('#control').append(
+            $(document.createElement('button')).prop({
+              type: 'button',
+              innerHTML: alg.algorithm,
+              click: function() {
+                var nodeDataArray = alg.nodes.map(result => ({
+                    key: result.id,
+                    parent: result.parent,
+                    name: result.state,
+                }))
 
-        myDiagram.model = new go.TreeModel(nodeDataArray);
+                myDiagram.model = go.Model.fromJson({ "class": "go.TreeModel", nodeDataArray })
+              }
+            })
+          )
+        }
+
+        document.getElementById('zoomToFit').addEventListener('click', () => myDiagram.commandHandler.zoomToFit());
+        document.getElementById('zoomToNode').addEventListener('click', () => {
+          myDiagram.scale = 1;
+          value = $('#nodeKey').val()
+          console.log(value)
+          myDiagram.commandHandler.scrollToPart(myDiagram.findNodeForKey(value));
+        });
+        
+
       })
 }
 window.onload = function () {
   $.getJSON( "results.json", function(results) {
-    console.log(results)
-    var options = {
+    var columnOptions = {
       title: {
         text: "Execution times"
       },
@@ -50,7 +85,21 @@ window.onload = function () {
       ]
     };
 
-    $("#chartContainer").CanvasJSChart(options);
+    var pieOptions = {
+      title: {
+        text: "Nodes"
+      },
+      data: [{
+        type: "pie",
+        startAngle: 240,
+        yValueFormatString: "##0",
+        indexLabel: "{label} {y}",
+        dataPoints: results.map(result => ({ label: result.name, y: result.count_states }))
+      }]
+    }
+
+    $("#columnChartContainer").CanvasJSChart(columnOptions);
+    $("#pieChartContainer").CanvasJSChart(pieOptions);
 
   });
 }
