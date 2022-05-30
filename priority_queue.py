@@ -1,5 +1,3 @@
-import heapq
-
 class PriorityQueue:
 
     def __init__(self):
@@ -9,57 +7,65 @@ class PriorityQueue:
     def __str__(self):
         return " ".join([str(x.cost) for x in self.queue])
 
+    def heapify(self, index):
+        left = 2 * index + 1
+        right = (2 * index + 1) + 1
+        size = len(self.queue)
+        minn = index
+
+        if left < size and self.queue[left].cost < self.queue[index].cost:
+            minn = left
+
+        if right < size and self.queue[right].cost < self.queue[minn].cost:
+            minn = right
+
+        if minn != index:
+            self.queue[index], self.queue[minn] = self.queue[minn], self.queue[index]
+            self.heapify(minn)
+
     def put(self, node):
         self.queue.append(node)
-        self._shift_up(self.size)
-        self.size += 1
+        self._shift_down(0)
+
+    def _shift_down(self, index):
+        size = len(self.queue) - 1
+        new_item = self.queue[size]
+
+        while size > index:
+            parent_index = (size - 1) >> 1
+            parent = self.queue[parent_index]
+            if new_item.cost <= parent.cost:
+                self.queue[size] = parent
+                size = parent_index
+                continue
+            break
+        self.queue[size] = new_item
+
+    def _parent(self, index):
+        return (index - 1) // 2
 
     def replace(self, node):
         item = node
         for i in range(len(self.queue)):
             if self.queue[i].id == node.id:
                 item = self.queue[i]
-                self._remove(i)
+                self.queue.pop(i)
                 item.cost = node.cost
+                self.heapify(i)
                 break
 
         self.put(item)
 
-    def _shift_up(self, index):
-        parent = int((index - 1)/2)
-
-        while index > 0 and self.queue[parent].cost >= self.queue[index].cost:
-            self.queue[index], self.queue[parent] = self.queue[parent], self.queue[index]
-            index = parent
-            parent = int((parent - 1)/2)
-
-    def _remove(self, index):
-        self.size -= 1
-        del self.queue[index]
-        self._shift_down(index)
-
-
     def get(self):
-        if self.size <= 0:
-            raise Exception('The queue is empty')
+        last = self.queue.pop()
+        if self.queue:
+            item = self.queue[0]
+            self.queue[0] = last
+            self.heapify(0)
+            return item
 
-        item = self.queue[0]
-        self._remove(0)
-        return item
+        return last
 
-    def _shift_down(self, parent):
-        index = 2 * parent + 1
-        while index < self.size:
-            if index < self.size - 1:
-                if self.queue[index].cost > self.queue[index + 1].cost:
-                    index += 1
-
-            if self.queue[parent].cost <= self.queue[index].cost:
-                break
-
-            self.queue[parent], self.queue[index] = self.queue[index], self.queue[parent]
-            parent = index
-            index = 2 * parent + 1
 
     def empty(self):
-        return self.size == 0
+        return len(self.queue) == 0

@@ -29,13 +29,13 @@ class AStar:
             if node.id in visited_edges and node.cost >= visited_edges.get(node.id):
                 continue
 
-            nodes.append({ "id": node.id, "parent": node.parent, "action": node.action, "state": utils.get_output_state(node.state)})
             if node.compare_states(goal_state):
                 result = node.state
                 break
 
             count_states += 1
             visited_edges[node.id] = node.cost
+            nodes.append({ "id": node.id, "parent": node.parent, "action": node.action, "state": utils.get_output_state(node.state)})
             for expanded_edge in node.expand_edge():
                 cost = self.g(expanded_edge) + self.h(expanded_edge, goal_state_map)
                 expanded_edge.cost = cost
