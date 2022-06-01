@@ -2,7 +2,7 @@ import utils
 import heuristics
 from puzzle import Puzzle
 from bfs import BFS
-from a_star import AStar
+from astar import AStar
 
 algs = [
     Puzzle(BFS("BFS")),

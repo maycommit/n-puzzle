@@ -9,8 +9,8 @@ class Movement:
 
 def get_all_possible_movements(empty_tile_position):
     possible_movements = []
-    down = Movement("LEFT", empty_tile_position.x, empty_tile_position.y - 1)
-    up = Movement("RIGHT", empty_tile_position.x, empty_tile_position.y + 1)
+    down = Movement("RIGHT", empty_tile_position.x, empty_tile_position.y - 1)
+    up = Movement("LEFT", empty_tile_position.x, empty_tile_position.y + 1)
     left = Movement("UP", empty_tile_position.x + 1, empty_tile_position.y)
     right = Movement("DOWN", empty_tile_position.x - 1, empty_tile_position.y)
 
