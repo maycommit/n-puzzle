@@ -3,6 +3,7 @@ class PriorityQueue:
     def __init__(self):
         self.size = 0
         self.queue = []
+        self.entries = set()
 
     def __str__(self):
         return " ".join([str(x.cost) for x in self.queue])
@@ -44,17 +45,12 @@ class PriorityQueue:
     def _parent(self, index):
         return (index - 1) // 2
 
-    def replace(self, node):
-        item = node
+    def replace_priority(self, node):
         for i in range(len(self.queue)):
             if self.queue[i].id == node.id:
-                item = self.queue[i]
-                self.queue.pop(i)
-                item.cost = node.cost
-                self.heapify(i)
+                self.queue[i].cost = node.cost
+                self._shift_down(i)
                 break
-
-        self.put(item)
 
     def get(self):
         last = self.queue.pop()

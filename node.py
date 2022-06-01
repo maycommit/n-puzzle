@@ -9,13 +9,20 @@ class Node:
     def __lt__(self, other):
         return self.cost < other.cost
 
-    def __init__(self, state, depth, cost=0, action="", parent=""):
+    def __init__(self, state, level, real_cost=0, cost=0, action="", parent=""):
         self.id = self.generate_id(state)
+        self.state = state
+        self.level = level
+        self.real_cost = real_cost
         self.cost = cost
         self.action = action
         self.parent = parent
-        self.state = state
-        self.depth = depth
+
+    def set_cost(self, new_cost):
+        self.cost = new_cost
+
+    def g(self):
+        return self.real_cost
 
     def generate_id(self, state):
         id = ""
@@ -54,11 +61,17 @@ class Node:
         movements = movement.get_all_possible_movements(empty_position)
 
         for m in movements:
+            ex, ey = empty_position.x, empty_position.y
+            mx, my = m.position.x, m.position.y
             state_copy = self.copy_state()
-            aux = state_copy[m.position.x][m.position.y]
-            state_copy[m.position.x][m.position.y] = state_copy[empty_position.x][empty_position.y]
-            state_copy[empty_position.x][empty_position.y] = aux
-            new_node = Node(state_copy, self.depth + 1, parent=self.id, action=m.name)
+            state_copy[mx][my], state_copy[ex][ey] = state_copy[ex][ey], state_copy[mx][my]
+            new_node = Node(
+                state_copy,
+                self.level + 1,
+                real_cost=self.real_cost + 1,
+                parent=self.id,
+                action=m.name
+            )
             parents.append(new_node)
 
         return parents
