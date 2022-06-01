@@ -15,6 +15,13 @@ class TestHeuristics(unittest.TestCase):
         s = heuristics.calculate_manhattan_distance_sum(test_state, goal_state)
         self.assertEqual(s, 10)
 
+    def test_manhattan_distance_case_3(self):
+        test_state = [[1,4,2],[6,5,8],[7,3,0]]
+        goal_state = utils.get_map_by_state([[1,2,0],[3,4,5],[6,7,8]])
+        s = heuristics.calculate_manhattan_distance_sum(test_state, goal_state)
+        self.assertEqual(s, 8)
+
+
 
     def test_wrong_poisition_case_1(self):
         test_state = [[7,2,4],[5,0,6],[8,3,1]]

@@ -24,7 +24,7 @@ class BFS:
                 break
 
             count_states += 1
-            for expanded_edge in node.expand_edge():
+            for expanded_edge in node.expand():
                 if expanded_edge.id not in visitedEdges:
                     queue.append(expanded_edge)
                     visitedEdges.add(expanded_edge.id)

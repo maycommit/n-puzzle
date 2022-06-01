@@ -55,7 +55,7 @@ class Node:
 
         return copy
 
-    def expand_edge(self):
+    def expand(self):
         parents = []
         empty_position = self.get_empty_tile_position()
         movements = movement.get_all_possible_movements(empty_position)

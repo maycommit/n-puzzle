@@ -40,7 +40,7 @@ class TestNote(unittest.TestCase):
     def test_expand_edge(self):
         state = [[7,2,4],[5,0,6],[8,3,1]]
         node = Node(state, 0)
-        expand_edges = node.expand_edge()
+        expand_edges = node.expand()
         self.assertEqual(expand_edges[0].state, [[7,2,4],[0,5,6],[8,3,1]])
         self.assertEqual(expand_edges[0].parent, '724506831')
         self.assertEqual(expand_edges[0].real_cost, 1)
