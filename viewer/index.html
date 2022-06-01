@@ -30,8 +30,8 @@ function init() {
                 goJS(go.TreeLayout,
                   { angle: 90, nodeSpacing: 10, layerSpacing: 40, layerStyle: go.TreeLayout.LayerUniform })
             });
- 
-        
+
+
         myDiagram.nodeTemplate =
           goJS(go.Node, "Auto",
             goJS(go.Panel, "Vertical",
@@ -41,22 +41,27 @@ function init() {
               )
           );
 
+        let algId = 1
         for(const alg of results) {
           $('#control').append(
             $(document.createElement('button')).prop({
               type: 'button',
+              id: 'control-' + algId,
               innerHTML: alg.algorithm,
-              click: function() {
-                var nodeDataArray = alg.nodes.map(result => ({
-                    key: result.id,
-                    parent: result.parent,
-                    name: result.state,
-                }))
-
-                myDiagram.model = go.Model.fromJson({ "class": "go.TreeModel", nodeDataArray })
-              }
             })
           )
+
+          $(`#control-${algId}`).click(() => {
+            var nodeDataArray = alg.nodes.map((result) => ({
+                key: result.id,
+                parent: result.parent,
+                name: result.state,
+            }))
+
+            myDiagram.model = go.Model.fromJson({ "class": "TreeModel", nodeDataArray })
+          })
+
+          algId += 1
         }
 
         document.getElementById('zoomToFit').addEventListener('click', () => myDiagram.commandHandler.zoomToFit());
@@ -66,8 +71,6 @@ function init() {
           console.log(value)
           myDiagram.commandHandler.scrollToPart(myDiagram.findNodeForKey(value));
         });
-        
-
       })
 }
 window.onload = function () {
@@ -78,7 +81,6 @@ window.onload = function () {
       },
       data: [
       {
-        // Change type to "doughnut", "line", "splineArea", etc.
         type: "column",
         dataPoints: results.map(result => ({ label: result.name, y: Number(result.execution_time) }) )
         }
@@ -104,7 +106,6 @@ window.onload = function () {
   });
 }
 window.addEventListener('DOMContentLoaded', init);
-  //Better to construct options first and then pass it as a parameter
 </script>
 </body>
 </html>
