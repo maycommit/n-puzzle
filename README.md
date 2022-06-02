@@ -57,6 +57,13 @@ Para um melhor entendimento sobre o algoritmo A* foi implementado a busca em lar
 
 ### Heuristicas
 
+  #### Distância de Manhattan
+ - A distância de Manhattan é um modelo geométrico em que a distância entre dois pontos é a soma das diferenças absolutas em suas coordenadas. Esta função retorna o somatório do cálculo de manhattan para cada ponto da matriz.
+
+ #### Número de Peças Fora do Lugar
+  - 
+ 
+
 #### Posições erradas
 
 
