@@ -25,11 +25,19 @@ As possibilidades são calculdas incrementando a linha e coluna apartir das coor
 
 ### Fila de prioridades
 
+[See more...](https://github.com/maycommit/n-puzzle/blob/main/priority_queue.py)
+
 ### Nó
+
+[See more...](https://github.com/maycommit/n-puzzle/blob/main/node.py)
 
 ### BFS
 
+[See more...](https://github.com/maycommit/n-puzzle/blob/main/bfs.py)
+
 ### A*
+
+[See more...](https://github.com/maycommit/n-puzzle/blob/main/astar.py)
 
 ### Viewer
 Para visualizar os resultados das execuções basta visualizar em seu navegador acessando `http://localhost:8000` após executar o comando:
@@ -63,3 +71,4 @@ python -m unittest discover -s ./ -p '*_test.py'
 - Cormen, T. H., Leiserson, C. E., Rivest, R. L.,, Stein, C. (2001). Introduction to Algorithms. The MIT Press. ISBN: 0262032937
 - Russell, S., Norvig, P. (2010). Artificial Intelligence: A Modern Approach. Prentice Hall.
 - Ramalho, L. (2015). Fluent Python. ISBN: 9781491946008 1491946008
+- Cui, Xiao & Shi, Hao. (2010). A*-based Pathfinding in Modern Computer Games. 11. 
