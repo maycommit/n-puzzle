@@ -34,8 +34,11 @@ As possibilidades são calculdas incrementando a linha e coluna apartir das coor
 
 ## Desenvolvimento
 
+### Pré requisitos
+- Python 3.8+
+
 ### Run
-Para rodar o projeto basta executar o arquivo principal mudando a entrada padrão como o comando:
+Para rodar o projeto basta executar o arquivo principal mudando a entrada padrão com o comando:
 ```
 python main.py < input.txt
 ```
@@ -46,3 +49,7 @@ Para executar os testes unitarios execute o comando abaixo:
 python -m unittest discover -s ./ -p '*_test.py'
 ```
 
+## Referencias
+- Cormen, T. H., Leiserson, C. E., Rivest, R. L.,, Stein, C. (2001). Introduction to Algorithms. The MIT Press. ISBN: 0262032937
+- Russell, S., Norvig, P. (2010). Artificial Intelligence: A Modern Approach. Prentice Hall.
+- Ramalho, L. (2015). Fluent Python. ISBN: 9781491946008 1491946008
