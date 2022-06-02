@@ -32,12 +32,12 @@ class AStar:
             if edge.id in self.visited_edges and not self.has_lower_cost(edge):
                 continue
 
+            nodes.append({ "id": edge.id, "parent": edge.parent, "action": edge.action, "state": utils.get_output_state(edge.state)})
             if edge.state == goal_state:
                 result = edge.state
                 break
 
             count_states += 1
-            nodes.append({ "id": edge.id, "parent": edge.parent, "action": edge.action, "state": utils.get_output_state(edge.state)})
             self.visited_edges[edge.id] = edge.cost
             for expanded_edge in edge.expand():
                 new_cost = self.f(expanded_edge, goal_state_map)

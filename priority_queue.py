@@ -33,13 +33,14 @@ class PriorityQueue:
         new_item = self.queue[size]
 
         while size > index:
-            parent_index = (size - 1) >> 1
+            parent_index = self._parent(size)
             parent = self.queue[parent_index]
             if new_item.cost <= parent.cost:
                 self.queue[size] = parent
                 size = parent_index
                 continue
             break
+
         self.queue[size] = new_item
 
     def _parent(self, index):
