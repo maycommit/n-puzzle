@@ -31,6 +31,16 @@ As possibilidades são calculdas incrementando a linha e coluna apartir das coor
 
 ### A*
 
+### Viewer
+Para visualizar os resultados das execuções basta visualizar em seu navegador acessando `http://localhost:8000` após executar o comando:
+```
+python --m http.server --directory ./out 8000
+```
+
+As execuções sao salvas em diretorios cujo nome é composto por estado inicial concatenado com o estado final. Ao entrar no diretorio uma pagina semelhante ao exemplo deve ser exibida:
+
+![Screen Shot 2022-06-02 at 11 14 14](https://user-images.githubusercontent.com/10244839/171650203-33adff6a-d2db-4eab-9bb8-c50a6e213fa2.png)
+
 
 ## Desenvolvimento
 
