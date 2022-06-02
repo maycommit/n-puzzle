@@ -72,6 +72,8 @@ Para um melhor entendimento sobre o algoritmo A* foi implementado a busca em lar
 
 ### A*
 
+O algoritmo foi baseado na busca em largura mencionada acima, porem sua implementação é baseado em uma fila de prioridade e nas heuristicas requisitadas. Além disso para cada nó expandido é calculado um custo utilizando `f(x) = g(x) + h(x)`. Estes custos definem as operação que serao realizadas na fila de prioridade.
+
 [See more...](https://github.com/maycommit/n-puzzle/blob/main/astar.py)
 
 ### Viewer
