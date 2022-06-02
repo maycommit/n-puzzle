@@ -41,21 +41,27 @@ A utilização de uma heap para manipulação da fila implicou em um melhor temp
 
 ### Nó
 
+No metodo de resoluçao de problemas utlizado é necessario a criação de uma arvore de estados para que o algoritmo de busca encontre o melhor caminho. Cada nó da arvore de estados contem informções importantes para o funcionamento do algorimo, como id, ação, estado e custo real. Além disso ele dispõe de metodos que auxiliam em sua manipulação como a geração de nós filhos utilizando seu proprio estado e manipulação de matrizes.
+
+Quando expandido o nó pode retornar até quatro filhos dependendo de seu estado atual. A cada expansão seu custo real é incrementado, assim como sua profundidade. Os estados gerados dependem das regras de movimentação ja detalhadas acima.
+
+![Screen Shot 2022-06-02 at 17 47 43](https://user-images.githubusercontent.com/10244839/171735352-f43f5879-eb29-4863-8e42-0784ac00285a.png)
+
 [See more...](https://github.com/maycommit/n-puzzle/blob/main/node.py)
 
 ### BFS
 
+Para um melhor entendimento sobre o algoritmo A* foi implementado a busca em largura baseado no algoritmo busca_em_arvore. Como uma busca nao informada, ela não faz o uso de heuristicas e sua implementação é baseada em fila FIFO. Também conhecida como força bruta.
+
 [See more...](https://github.com/maycommit/n-puzzle/blob/main/bfs.py)
 
-A implementação do algoritmo de busca em largura foi baseada em um exemplo mostrado em sala de aula (Busca: Algoritmo genérico) Aula 03. 
-Mais abaixo temos a exemplificação do código feito com algumas observações de pontos importantes para o funcionamento do da solução.    
+### Heuristicas
 
-*  Inicializa a borda com Estado inicial linha 15.  
-*  Escolha o nó e remova ele da borda linha 18.   
-*  Se encontrar o estado desejado, retorne linha 23. 
-*  Adicionar o nó escolhido a expandido linha 28.   
-* Expandir o nó escolhido e adicionar os nós resultantes à borda (se este não estiver em borda ou em explorados)  linha 31. 
+#### Posições erradas
 
+
+
+#### Distancia de Manhattan
 
 ### A*
 
