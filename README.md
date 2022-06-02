@@ -63,6 +63,8 @@ Para um melhor entendimento sobre o algoritmo A* foi implementado a busca em lar
  #### Número de Peças Fora do Lugar
   - Utilizando o método de comparar a posição do elemento corrente na matriz em relação a sua  posição no estado final conseguimos obter o somatório de quantas posições estão erradas. 
 
+[See more...](https://github.com/maycommit/n-puzzle/blob/main/heuristics.py)
+
 #### Distancia de Manhattan
 
 ### A*
