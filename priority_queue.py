@@ -1,3 +1,5 @@
+import bisect
+
 class PriorityQueue:
 
     def __init__(self):
@@ -9,8 +11,8 @@ class PriorityQueue:
         return " ".join([str(x.cost) for x in self.queue])
 
     def heapify(self, index):
-        left = 2 * index + 1
-        right = (2 * index + 1) + 1
+        left = 2 * index
+        right = (2 * index) + 1
         size = len(self.queue)
         minn = index
 
@@ -25,23 +27,23 @@ class PriorityQueue:
             self.heapify(minn)
 
     def put(self, node):
-        self.queue.append(node)
-        self._shift_down(0)
-
-    def _shift_down(self, index):
-        size = len(self.queue) - 1
-        new_item = self.queue[size]
-
-        while size > index:
-            parent_index = self._parent(size)
-            parent = self.queue[parent_index]
-            if new_item.cost <= parent.cost:
-                self.queue[size] = parent
-                size = parent_index
-                continue
+        index = len(self.queue)
+        for i in range(len(self.queue)):
+          if self.queue[i].cost > node.cost:
+            index = i
             break
 
-        self.queue[size] = new_item
+        if index == len(self.queue):
+          self.queue = self.queue[:index] + [node]
+        else:
+          self.queue = self.queue[:index] + [node] + self.queue[index:]
+
+
+    def _shift_down(self, index):
+        while index > 0 and self.queue[self._parent(index)].cost >= self.queue[index].cost:
+            self.queue[index], self.queue[self._parent(index)] = self.queue[self._parent(index)], self.queue[index]
+            index = self._parent(index)
+
 
     def _parent(self, index):
         return index // 2
@@ -49,22 +51,10 @@ class PriorityQueue:
     def replace_priority(self, node):
         for i in range(len(self.queue)):
             if self.queue[i].id == node.id:
-                replaced_item = self.queue[i]
-                self.queue.remove(replaced_item)
-                replaced_item.cost = node.cost
-                self.heapify(i)
-                self.put(replaced_item)
-                break
+                print('REPLACE')
 
     def get(self):
-        last = self.queue.pop()
-        if self.queue:
-            item = self.queue[0]
-            self.queue[0] = last
-            self.heapify(0)
-            return item
-
-        return last
+        return self.queue.pop(0)
 
 
     def empty(self):

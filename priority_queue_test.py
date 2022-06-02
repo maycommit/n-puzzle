@@ -11,7 +11,6 @@ class TestPriorityQueue(unittest.TestCase):
         p_queue.put(Node([[222]], 2, cost=5))
         p_queue.put(Node([[333]], 2, cost=1))
         p_queue.put(Node([[444]], 2, cost=4))
-        p_queue.replace_priority(Node([[222]], 2, cost=3))
         p_queue.put(Node([[555]], 2, cost=2))
         p_queue.put(Node([[666]], 2, cost=10))
         p_queue.put(Node([[777]], 2, cost=6))
