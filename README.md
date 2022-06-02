@@ -70,6 +70,7 @@ python --m http.server --directory ./out 8000
 As execuções sao salvas em diretorios cujo nome é composto por estado inicial concatenado com o estado final. Ao entrar no diretorio uma pagina semelhante ao exemplo deve ser exibida:
 
 ![Screen Shot 2022-06-02 at 11 14 14](https://user-images.githubusercontent.com/10244839/171650203-33adff6a-d2db-4eab-9bb8-c50a6e213fa2.png)
+<img width="1258" alt="Screen Shot 2022-06-02 at 16 24 46" src="https://user-images.githubusercontent.com/10244839/171721560-906617f9-e492-4d6a-b755-371aba02d060.png">
 
 
 ## Desenvolvimento
