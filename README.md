@@ -25,24 +25,27 @@ As possibilidades são calculdas incrementando a linha e coluna apartir das coor
 
 ### Fila de prioridades
 
+A fila de prioridade utilizada pelo A* neste projeto foi immplementada utilizando a estrutura de dados heap, de modo que a organização do arranjo pode ser visto como uma arvore binaria quase completa.
+
+![heap-order](https://user-images.githubusercontent.com/10244839/171711828-3e9f56a3-3c28-4409-9087-7a7a1c2a4d99.jpg)
+
+A utilização de uma heap para manipulação da fila implicou em um melhor tempo de execução quando comparado a uma implementação utilizando array ordenado.
+
+| Metodo | Tempo (O) |
+| --- | ---|
+| put | O(log n) |
+| get | O(log n) |
+
+
 [See more...](https://github.com/maycommit/n-puzzle/blob/main/priority_queue.py)
 
 ### Nó
 
-O nó e uma estrutura fundamental para implementação do algoritmo.
-Ele é expandido pelo a* quando o custo do nó atual é maior que um nó visitado.Para expandir um nó precisamos :
-
-- Definir uma lista - parents.
-- Definir uma variável para posição do elemento vazio.
-- Definir uma lista movimentos possiveis de acordo com a posicao do elemento vazio.
-- Percorremos a lista de movimentos que foram encontrados definindo uma variável para posição do elemento vazio e uma variavel para movimento que será feito.
-- Fazemos uma cópia do estado corrente e então a troca de posição entre o elemento vazio e posição de movimento.
-- Criamos um novo nó para ser adicionado na lista de parents. 
-- Então retornamos esta lista contendo todos os estados do nó expandido.
-
 [See more...](https://github.com/maycommit/n-puzzle/blob/main/node.py)
 
 ### BFS
+
+[See more...](https://github.com/maycommit/n-puzzle/blob/main/bfs.py)
 
 A implementação do algoritmo de busca em largura foi baseada em um exemplo mostrado em sala de aula (Busca: Algoritmo genérico) Aula 03. 
 Mais abaixo temos a exemplificação do código feito com algumas observações de pontos importantes para o funcionamento do da solução.    
@@ -53,7 +56,6 @@ Mais abaixo temos a exemplificação do código feito com algumas observações 
 *  Adicionar o nó escolhido a expandido linha 28.   
 * Expandir o nó escolhido e adicionar os nós resultantes à borda (se este não estiver em borda ou em explorados)  linha 31. 
 
-[See more...](https://github.com/maycommit/n-puzzle/blob/main/bfs.py)
 
 ### A*
 
