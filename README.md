@@ -35,6 +35,16 @@ As possibilidades são calculdas incrementando a linha e coluna apartir das coor
 
 [See more...](https://github.com/maycommit/n-puzzle/blob/main/bfs.py)
 
+A implementação do algoritmo de busca em largura foi baseada em um exemplo mostrado em sala de aula (Busca: Algoritmo genérico) Aula 03. 
+Mais abaixo temos a exemplificação do código feito com algumas observações de pontos importantes para o funcionamento do da solução.    
+
+*  Inicializa a borda com Estado inicial linha 15.  
+*  Escolha o nó e remova ele da borda linha 18.   
+*  Se encontrar o estado desejado, retorne linha 23. 
+*  Adicionar o nó escolhido a expandido linha 28.   
+* Expandir o nó escolhido e adicionar os nós resultantes à borda (se este não estiver em borda ou em explorados)  linha 31. 
+
+
 ### A*
 
 [See more...](https://github.com/maycommit/n-puzzle/blob/main/astar.py)
