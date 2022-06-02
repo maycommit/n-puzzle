@@ -12,7 +12,7 @@ class TestPriorityQueue(unittest.TestCase):
         p_queue.put(Node([[333]], 2, cost=1))
         p_queue.put(Node([[444]], 2, cost=4))
         p_queue.replace_priority(Node([[222]], 2, cost=3))
-        p_queue.put(Node([[555]], 2, cost=1))
+        p_queue.put(Node([[555]], 2, cost=2))
         p_queue.put(Node([[666]], 2, cost=10))
         p_queue.put(Node([[777]], 2, cost=6))
 
@@ -21,7 +21,7 @@ class TestPriorityQueue(unittest.TestCase):
             node = p_queue.get()
             result.append(str(node.cost))
 
-        self.assertEqual(" ".join(result), "0 1 1 3 3 4 6 10")
+        self.assertEqual(" ".join(result), "0 1 2 3 3 4 6 10")
 
 if __name__ == "__main__":
     unittest.main()

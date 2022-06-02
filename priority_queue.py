@@ -44,19 +44,17 @@ class PriorityQueue:
         self.queue[size] = new_item
 
     def _parent(self, index):
-        return (index - 1) // 2
+        return index // 2
 
     def replace_priority(self, node):
-        replaced_item = None
         for i in range(len(self.queue)):
             if self.queue[i].id == node.id:
                 replaced_item = self.queue[i]
-                self.queue[i].cost = node.cost
-                self._shift_down(i)
+                self.queue.remove(replaced_item)
+                replaced_item.cost = node.cost
+                self.heapify(i)
+                self.put(replaced_item)
                 break
-
-        if not replaced_item:
-            self.put(node)
 
     def get(self):
         last = self.queue.pop()
